@@ -10,4 +10,4 @@ To make up for the tiny RAM of the Arduino UNO the "avr/pgmspace" lib was used t
 The Arduino and LED-strips was powered by a porable 12V battery and the Voltage was regualted with LD1085V50 voltage regulators. 
 Comands from a Bluetooth terminal on a smartphone can also control what is displayed on the matrix. This makes for a nice wireless and portable DJ helmet. 
 
-[![SC2 Video](https://github.com/MansOlm/FastLED-DaftPunk-Helmet/blob/master/video-1630273437.mp4)](http://www.youtube.com/watch?v=--b-9HrKK6w)
+[![SC2 Video](https://github.com/MansOlm/FastLED-DaftPunk-Helmet/blob/master/video-1630273437.mp4)](https://github.com/MansOlm/FastLED-DaftPunk-Helmet/blob/master/video-1630273437.mp4)
