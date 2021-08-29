@@ -1,6 +1,5 @@
 #include <Arduino.h>
 #include "figures.h"
-#include "constants.h"
 #include "LEDS.h"
 #include "animations.h"
 #include "BT.h"
@@ -15,10 +14,33 @@ void loop()
 {
   readBT();
 
-  // diagonalRainbow();
-  // starTwinkle(5, 50, 100);
+  switch (getAnimationState())
+  {
+  case STARLIGHT:
+    starTwinkle(5, 50, 100);
+    break;
 
-  switch (getState())
+  case DIAG:
+    diagonalRainbow();
+    break;
+
+  case FLAMES:
+    flames();
+    break;
+
+  case EQ:
+    equalizer();
+    break;
+
+  case RESET_A:
+    clearAnimation();
+    break;
+
+  default:
+    break;
+  }
+
+  switch (getFigureState())
   {
   case ANGEL:
     setAngel();
@@ -40,8 +62,27 @@ void loop()
     setSuperHappy();
     break;
 
+  case HEART:
+    setHeart();
+    break;
+
+  case HEARTEMOJI:
+    setHeartEmoji();
+    break;
+
+  case XD_F:
+    setXD();
+    break;
+
+  case THOUNG:
+    setThoungEmoji();
+    break;
+
+  case RESET_F:
+    clearFigure();
+    break;
+
   default:
-    setAngel();
     break;
   }
 

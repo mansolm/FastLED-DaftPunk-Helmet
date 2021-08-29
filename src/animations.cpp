@@ -4,6 +4,18 @@
 #include "constants.h"
 #include "LEDS.h"
 #include "palettes.h"
+#include "BT.h"
+
+static uint8_t activeAnimation = 0;
+
+void clearAnimation()
+{
+    if (activeAnimation != getAnimationState())
+    {
+        FastLED.clear();
+        activeAnimation = getAnimationState();
+    }
+}
 
 void flow()
 {
@@ -61,5 +73,76 @@ void starTwinkle(uint8_t intensity, uint8_t fade_v, uint8_t update_time)
             setLEDSi(random8(NUM_LEDS), CRGB::White);
         }
         fade(NUM_LEDS, fade_v);
+    }
+}
+
+void flames()
+{
+    EVERY_N_MILLIS(100)
+    {
+        CRGBPalette16 palette = flame_palette;
+
+        for (uint8_t i = 0; i < NUM_LEDS; i++)
+        {
+            setLEDSi(i, ColorFromPalette(palette, random8(255), 20, LINEARBLEND));
+        }
+    }
+}
+
+void drawEqualizer(uint8_t x, uint8_t level)
+{
+    CRGB colors[] = {0xff0000, 0xffe700, 0xdbff00, 0x20ff00, 0x00ffcc, 0x0089ff, 0x2000ff, 0xa700ff, 0xff00a3, 0xff0011};
+
+    for (uint8_t i = 0; i < HEIGHT - 1; i++)
+    {
+        if (i < level)
+        {
+            CRGB color = CRGB(colors[x]);
+            color.nscale8(i * 15);
+            setLEDS(x, HEIGHT - i - 1, color);
+        }
+        else
+        {
+            setLEDS(x, HEIGHT - i - 1, CRGB::Black);
+        }
+    }
+}
+
+static long eq_count = 0;
+void equalizer()
+{
+    static uint8_t levels[WIDTH];
+    eq_count++;
+    eq_count = eq_count % 256;
+
+    EVERY_N_MILLIS(5)
+    {
+
+        levels[0] = inoise8(beatsin8(86, 1, 150, 0, 0), eq_count) / 17;
+        levels[1] = inoise8(beatsin8(62, 1, 57, 0, 75), eq_count) / 17;
+        levels[2] = inoise8(beatsin8(65, 1, 213, 0, 173), eq_count) / 17;
+        levels[3] = inoise8(beatsin8(74, 1, 134, 0, 14), eq_count) / 17;
+        levels[4] = inoise8(beatsin8(85, 1, 143, 0, 84), eq_count) / 17;
+        levels[5] = inoise8(beatsin8(100, 1, 98, 0, 243), eq_count) / 17;
+        levels[6] = inoise8(beatsin8(94, 1, 198, 0, 132), eq_count) / 17;
+        levels[7] = inoise8(beatsin8(58, 1, 145, 0, 212), eq_count) / 17;
+        levels[8] = inoise8(beatsin8(68, 1, 137, 0, 79), eq_count) / 17;
+        levels[9] = inoise8(beatsin8(74, 1, 100, 0, 99), eq_count) / 17;
+
+        // levels[0] = beatsin8(43, 1, 14, 0, 0);
+        // levels[1] = beatsin8(62, 1, 14, 0, 75);
+        // levels[2] = beatsin8(12, 1, 14, 0, 173);
+        // levels[3] = beatsin8(86, 1, 14, 0, 14);
+        // levels[4] = beatsin8(42, 1, 14, 0, 84);
+        // levels[5] = beatsin8(74, 1, 14, 0, 243);
+        // levels[6] = beatsin8(36, 1, 14, 0, 132);
+        // levels[7] = beatsin8(16, 1, 14, 0, 212);
+        // levels[8] = beatsin8(23, 1, 14, 0, 79);
+        // levels[9] = beatsin8(45, 1, 14, 0, 99);
+
+        for (uint8_t i = 0; i < WIDTH; i++)
+        {
+            drawEqualizer(i, levels[i]);
+        }
     }
 }

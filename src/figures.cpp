@@ -6,104 +6,76 @@
 #include "LEDS.h"
 #include "BT.h"
 
-static uint8_t active = 0;
+static uint8_t activeFigure = 0;
 
-void clear()
+void setFigure(const unsigned long *figure)
 {
-    if (active != getState())
+
+    clearFigure();
+    for (uint8_t i = 0; i < (WIDTH * 15); i++)
+    {
+        if (pgm_read_dword(&figure[i]) != 0)
+        {
+            setLEDS((i % WIDTH), (i / WIDTH), pgm_read_dword(&figure[i]));
+        }
+    }
+}
+
+void clearFigure()
+{
+    if (activeFigure != getFigureState())
     {
         FastLED.clear();
-        active = getState();
+        activeFigure = getFigureState();
     }
 }
 
-void setEyes(uint8_t firstRow)
+void setHeart()
 {
-    clear();
-
-    for (uint8_t i = 0; i < (WIDTH * 3); i++)
-    {
-        if (pgm_read_dword(&eyes[i]) != 0)
-        {
-            setLEDS((i % WIDTH), (firstRow - 1) + (i / WIDTH), pgm_read_dword(&eyes[i]));
-        }
-    }
+    setFigure(heart);
 }
 
-void setMouth(uint8_t firstRow)
+void setHeartEmoji()
 {
+    setFigure(heartEmoji);
+}
 
-    clear();
-    for (uint8_t i = 0; i < (WIDTH * 5); i++)
-    {
-        if (pgm_read_dword(&mouth[i]) != 0)
-        {
-            setLEDS((i % WIDTH), (firstRow - 1) + (i / WIDTH), pgm_read_dword(&mouth[i]));
-        }
-    }
+void setXD()
+{
+    setFigure(XD);
+}
+
+void setThoungEmoji()
+{
+    setFigure(toungEmoji);
 }
 
 void setDevil()
 {
 
-    clear();
-    for (uint8_t i = 0; i < (WIDTH * 13); i++)
-    {
-        if (pgm_read_dword(&devil[i]) != 0)
-        {
-            setLEDS((i % WIDTH), (i / WIDTH), pgm_read_dword(&devil[i]));
-        }
-    }
+    setFigure(devil);
 }
 
 void setAngel()
 {
 
-    clear();
-    for (uint8_t i = 0; i < (WIDTH * 15); i++)
-    {
-        if (pgm_read_dword(&angel[i]) != 0)
-        {
-            setLEDS((i % WIDTH), (i / WIDTH), pgm_read_dword(&angel[i]));
-        }
-    }
+    setFigure(angel);
 }
 
 void setTree()
 {
 
-    clear();
-    for (uint8_t i = 0; i < (WIDTH * 15); i++)
-    {
-        if (pgm_read_dword(&tree[i]) != 0)
-        {
-            setLEDS((i % WIDTH), (i / WIDTH), pgm_read_dword(&tree[i]));
-        }
-    }
+    setFigure(tree);
 }
 
 void setHappy()
 {
 
-    clear();
-    for (uint8_t i = 0; i < (WIDTH * 15); i++)
-    {
-        if (pgm_read_dword(&happy[i]) != 0)
-        {
-            setLEDS((i % WIDTH), (i / WIDTH), pgm_read_dword(&happy[i]));
-        }
-    }
+    setFigure(happy);
 }
 
 void setSuperHappy()
 {
 
-    clear();
-    for (uint8_t i = 0; i < (WIDTH * 15); i++)
-    {
-        if (pgm_read_dword(&superHappy[i]) != 0)
-        {
-            setLEDS((i % WIDTH), (i / WIDTH), pgm_read_dword(&superHappy[i]));
-        }
-    }
+    setFigure(superHappy);
 }

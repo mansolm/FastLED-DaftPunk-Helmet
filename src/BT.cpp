@@ -1,23 +1,43 @@
 #include "Arduino.h"
 #include "BT.h"
 
-static uint8_t token_state = 0;
-uint8_t lastState = 0;
+static uint8_t figure_state = 0;
+static uint8_t animation_state = 0;
 
 void readBT()
 {
+    uint8_t c;
     if (Serial.available() > 0)
     {
-        token_state = Serial.read();
+        c = Serial.read();
+
+        if (c >= 'a' && c <= 'z')
+        {
+            figure_state = c;
+        }
+        else if (c >= 'A' && c <= 'Z')
+        {
+            animation_state = c;
+        }
     }
 }
 
-void setState(uint8_t state)
+void setFigureState(uint8_t state)
 {
-    token_state = state;
+    figure_state = state;
 }
 
-uint8_t getState()
+void setAnimationState(uint8_t state)
 {
-    return token_state;
+    animation_state = state;
+}
+
+uint8_t getFigureState()
+{
+    return figure_state;
+}
+
+uint8_t getAnimationState()
+{
+    return animation_state;
 }
