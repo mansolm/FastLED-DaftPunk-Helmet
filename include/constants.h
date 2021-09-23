@@ -8,7 +8,7 @@
 
 #define NUM_LEDS 150
 
-#define BRIGHTNESS 20
+#define BRIGHTNESS 100
 #define FRAMES_PER_SECOND 60
 
 #endif

@@ -112,22 +112,42 @@ static long eq_count = 0;
 void equalizer()
 {
     static uint8_t levels[WIDTH];
-    eq_count++;
-    eq_count = eq_count % 256;
 
-    EVERY_N_MILLIS(5)
+    EVERY_N_MILLIS(10)
     {
+        // eq_count++;
+        // eq_count = eq_count % sizeof(long);
 
-        levels[0] = inoise8(beatsin8(86, 1, 150, 0, 0), eq_count) / 17;
-        levels[1] = inoise8(beatsin8(62, 1, 57, 0, 75), eq_count) / 17;
-        levels[2] = inoise8(beatsin8(65, 1, 213, 0, 173), eq_count) / 17;
-        levels[3] = inoise8(beatsin8(74, 1, 134, 0, 14), eq_count) / 17;
-        levels[4] = inoise8(beatsin8(85, 1, 143, 0, 84), eq_count) / 17;
-        levels[5] = inoise8(beatsin8(100, 1, 98, 0, 243), eq_count) / 17;
-        levels[6] = inoise8(beatsin8(94, 1, 198, 0, 132), eq_count) / 17;
-        levels[7] = inoise8(beatsin8(58, 1, 145, 0, 212), eq_count) / 17;
-        levels[8] = inoise8(beatsin8(68, 1, 137, 0, 79), eq_count) / 17;
-        levels[9] = inoise8(beatsin8(74, 1, 100, 0, 99), eq_count) / 17;
+        uint8_t sin1 = beatsin8(64, 1, 15, 0, 78);
+        uint8_t sin2 = beatsin8(53, 1, 15, 0, 140);
+        uint8_t sin3 = beatsin8(42, 1, 15, 0, 34);
+        uint8_t sin4 = beatsin8(75, 1, 15, 0, 183);
+        uint8_t sin5 = beatsin8(53, 1, 15, 0, 241);
+        uint8_t sin6 = beatsin8(48, 1, 15, 0, 47);
+        uint8_t sin7 = beatsin8(83, 1, 15, 0, 89);
+        uint8_t sin8 = beatsin8(74, 1, 15, 0, 120);
+
+        levels[0] = (sin1 + sin2 + sin8) / 3;
+        levels[1] = (sin4 + sin5 + sin7) / 3;
+        levels[2] = (sin3 + sin6 + sin2) / 3;
+        levels[3] = (sin1 + sin4 + sin5) / 3;
+        levels[4] = (sin7 + sin4 + sin6) / 3;
+        levels[5] = (sin7 + sin2 + sin5) / 3;
+        levels[6] = (sin8 + sin1 + sin5) / 3;
+        levels[7] = (sin6 + sin1 + sin3) / 3;
+        levels[8] = (sin4 + sin7 + sin6) / 3;
+        levels[9] = (sin3 + sin7 + sin1) / 3;
+
+        // levels[0] = inoise8(beatsin8(34, 1, 150, 0, 0), eq_count) / 17;
+        // levels[1] = inoise8(beatsin8(12, 1, 57, 0, 75), eq_count) / 17;
+        // levels[2] = inoise8(beatsin8(23, 1, 213, 0, 173), eq_count) / 17;
+        // levels[3] = inoise8(beatsin8(43, 1, 134, 0, 14), eq_count) / 17;
+        // levels[4] = inoise8(beatsin8(27, 1, 143, 0, 84), eq_count) / 17;
+        // levels[5] = inoise8(beatsin8(39, 1, 98, 0, 243), eq_count) / 17;
+        // levels[6] = inoise8(beatsin8(19, 1, 198, 0, 132), eq_count) / 17;
+        // levels[7] = inoise8(beatsin8(33, 1, 145, 0, 212), eq_count) / 17;
+        // levels[8] = inoise8(beatsin8(22, 1, 137, 0, 79), eq_count) / 17;
+        // levels[9] = inoise8(beatsin8(27, 1, 100, 0, 99), eq_count) / 17;
 
         // levels[0] = beatsin8(43, 1, 14, 0, 0);
         // levels[1] = beatsin8(62, 1, 14, 0, 75);
